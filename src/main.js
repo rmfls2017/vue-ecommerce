@@ -1,6 +1,7 @@
-import './assets/main.css'
-
 import { createApp } from 'vue'
 import App from './App.vue'
+import GTM from "@/plugins/gtm.js";
 
-createApp(App).mount('#app')
+createApp(App)
+    .use(GTM)
+    .mount('#app')
