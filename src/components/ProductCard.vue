@@ -4,8 +4,7 @@
     <div class="product-info">
       <h3 class="product-name">{{ product.name }}</h3>
       <p class="product-description">{{ product.description }}</p>
-      <p class="product-price">{{ formatPrice(product.price) }}원</p>
-      <button class="add-to-cart" @click="addToCart">장바구니 담기</button>
+      <p v-if="product.price" class="product-price">{{ formatPrice(product.price) }}원</p>
     </div>
   </div>
 </template>
@@ -21,7 +20,7 @@ export default {
   },
   methods: {
     formatPrice(price) {
-      return price.toLocaleString()
+      return price ? price.toLocaleString() : ''
     },
     addToCart() {
       this.$emit('add-to-cart', this.product)
@@ -69,17 +68,4 @@ export default {
   margin: 0.5rem 0;
 }
 
-.add-to-cart {
-  width: 100%;
-  padding: 0.5rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.add-to-cart:hover {
-  background-color: #0056b3;
-}
 </style>

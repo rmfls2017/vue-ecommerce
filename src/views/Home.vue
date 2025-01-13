@@ -58,7 +58,9 @@ export default {
             model: 'X2000',
             specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
             stock: 50
-          }
+          },
+          sellerImage: "https://picsum.photos/id/101/300/300",
+          seller: "",
         },
         {
           id: 2,
@@ -71,12 +73,14 @@ export default {
             model: 'X2000',
             specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
             stock: 50
-          }
+          },
+          sellerImage: "https://picsum.photos/id/201/300/300",
+          seller: "",
         },
         {
           id: 3,
           name: '상품 3',
-          price: 39000,
+          // price: 39000,
           image: 'https://picsum.photos/id/300/300/300',
           description: '상품설명 3',
           details: {
@@ -84,12 +88,14 @@ export default {
             model: 'X2000',
             specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
             stock: 50
-          }
+          },
+          sellerImage: "https://picsum.photos/id/301/300/300",
+          seller: "",
         },
         {
           id: 4,
           name: '상품 4',
-          price: 49000,
+          // price: 49000,
           image: 'https://picsum.photos/id/400/300/300',
           description: '상품설명 4',
           details: {
@@ -97,7 +103,9 @@ export default {
             model: 'X2000',
             specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
             stock: 50
-          }
+          },
+          sellerImage: "https://picsum.photos/id/401/300/300",
+          seller: "",
         },
         {
           id: 5,
@@ -110,7 +118,9 @@ export default {
             model: 'X2000',
             specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
             stock: 50
-          }
+          },
+          sellerImage: "https://picsum.photos/id/501/300/300",
+          seller: "",
         },
         {
           id: 6,
@@ -123,7 +133,9 @@ export default {
             model: 'X2000',
             specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
             stock: 50
-          }
+          },
+          sellerImage: "https://picsum.photos/id/601/300/300",
+          seller: "",
         }
       ]
     }
