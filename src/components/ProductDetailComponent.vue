@@ -1,4 +1,3 @@
-// components/ProductDetailComponent.vue
 <template>
   <div class="product-detail-overlay" @click.self="closeModal">
     <div class="product-detail-container">
@@ -108,7 +107,7 @@ export default {
   },
   data() {
     return {
-      quantity: 1
+      quantity: 1,
     }
   },
   methods: {
@@ -150,25 +149,29 @@ export default {
 .product-detail-overlay {
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: flex-end;
   align-items: stretch;
   z-index: 1000;
+  pointer-events: none;
 }
 
 .product-detail-container {
   background-color: white;
   width: 90%;
   max-width: 800px;
-  height: 100%;
+  height: 100vh;
   overflow-y: auto;
   padding: 2rem;
   position: relative;
-  animation: slideIn 0.3s ease-out;
+  pointer-events: auto;
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.product-detail-container.slide-out {
+  animation: slideOut 0.3s ease-in forwards;
 }
 
 @keyframes slideIn {
@@ -177,6 +180,15 @@ export default {
   }
   to {
     transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
   }
 }
 
@@ -374,24 +386,5 @@ export default {
 
 .buy-now-btn:hover {
   background-color: #0056b3;
-}
-
-@media (max-width: 768px) {
-  .product-detail-container {
-    width: 100%;
-    max-width: none;
-  }
-
-  .action-buttons {
-    flex-direction: column;
-  }
-
-  .product-name {
-    font-size: 1.5rem;
-  }
-
-  .product-price {
-    font-size: 1.3rem;
-  }
 }
 </style>

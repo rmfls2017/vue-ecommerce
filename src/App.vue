@@ -1,33 +1,40 @@
 <template>
   <div class="app">
     <HeaderComponent />
-    <MainContent />
+    <main class="main-content">
+      <router-view></router-view>
+    </main>
     <FooterComponent />
   </div>
 </template>
 
 <script>
 import HeaderComponent from './components/HeaderComponent.vue'
-import MainContent from './components/MainContent.vue'
-import FooterComponent from './components/FooterComponent.vue'
+import FooterComponent from "@/components/FooterComponent.vue";
 
 export default {
   name: 'App',
   components: {
-    HeaderComponent,
-    MainContent,
-    FooterComponent
-  },
-  mounted() {
-    this.$gtm.logPageView('Home', window.location.pathname)
+    FooterComponent,
+    HeaderComponent
   }
 }
 </script>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .app {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  background-color: #ffffff;
+}
+
+.main-content {
+  margin-top: 70px; /* 헤더의 높이만큼 여백 추가 */
+  min-height: calc(100vh - 70px);
 }
 </style>

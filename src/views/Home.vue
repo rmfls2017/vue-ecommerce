@@ -32,11 +32,11 @@
 </template>
 
 <script>
-import ProductCard from "./ProductCard.vue";
-import ProductDetailComponent from "./ProductDetailComponent.vue";
+import ProductCard from "@/components/ProductCard.vue";
+import ProductDetailComponent from "@/components/ProductDetailComponent.vue";
 
 export default {
-  name: 'MainContent',
+  name: 'Home',
   components: {
     ProductCard,
     ProductDetailComponent,
@@ -131,8 +131,8 @@ export default {
   computed: {
     filteredProducts() {
       return this.selectedCategory === 'all'
-        ? this.products
-        : this.products.filter(p => p.category === this.selectedCategory)
+          ? this.products
+          : this.products.filter(p => p.category === this.selectedCategory)
     }
   },
   methods: {
