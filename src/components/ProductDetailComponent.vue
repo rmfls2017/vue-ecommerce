@@ -1,21 +1,69 @@
+<script>
+export default {
+  name: 'ProductDetailComponent',
+  props: {
+    product: {
+      type: Object,
+      required: true,
+      details: {
+        type: Object,
+        required: true,
+      }
+    }
+  },
+  data() {
+    return {
+      quantity: 1,
+      isClosing: false,
+    }
+  },
+  methods: {
+    formatPrice(price) {
+      return price.toLocaleString()
+    },
+    closeModal() {
+      this.isClosing = true;
+      setTimeout(() => {
+        this.isClosing = false;
+        this.$emit('close')
+      }, 300)
+    },
+    decreaseQuantity() {
+      if (this.quantity > 1) {
+        this.quantity--
+      }
+    },
+    increaseQuantity() {
+      if (this.quantity < this.product.details.stock) {
+        this.quantity++
+      }
+    },
+    addToCart() {
+      this.$gtm?.logAddToCart(this.product, this.quantity)
+      this.$emit('add-to-cart', {
+        product: this.product,
+        quantity: this.quantity
+      })
+      this.closeModal()
+    },
+    buyNow() {
+      this.$gtm?.logBeginCheckout([{
+        product: this.product,
+        quantity: this.quantity
+      }])
+    }
+  }
+}
+</script>
+
 <template>
   <div class="product-detail-overlay" @click.self="closeModal">
-    <div class="product-detail-container">
+    <div class="product-detail-container" :class="{ 'slide-out': isClosing }">
       <button class="close-button" @click="closeModal">&times;</button>
-
       <div class="product-detail-content">
         <div class="product-images">
           <div class="main-image">
             <img :src="product.image" :alt="product.name">
-          </div>
-          <div class="thumbnail-images" v-if="product.additionalImages">
-            <img
-                v-for="(image, index) in product.additionalImages"
-                :key="index"
-                :src="image"
-                :alt="`${product.name} ${index + 1}`"
-                class="thumbnail"
-            >
           </div>
         </div>
 
@@ -92,82 +140,30 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ProductDetailComponent',
-  props: {
-    product: {
-      type: Object,
-      required: true,
-      details: {
-        type: Object,
-        required: true,
-      }
-    }
-  },
-  data() {
-    return {
-      quantity: 1,
-    }
-  },
-  methods: {
-    formatPrice(price) {
-      return price.toLocaleString()
-    },
-    closeModal() {
-      this.$emit('close')
-    },
-    decreaseQuantity() {
-      if (this.quantity > 1) {
-        this.quantity--
-      }
-    },
-    increaseQuantity() {
-      if (this.quantity < this.product.details.stock) {
-        this.quantity++
-      }
-    },
-    addToCart() {
-      this.$gtm?.logAddToCart(this.product, this.quantity)
-      this.$emit('add-to-cart', {
-        product: this.product,
-        quantity: this.quantity
-      })
-      this.closeModal()
-    },
-    buyNow() {
-      this.$gtm?.logBeginCheckout([{
-        product: this.product,
-        quantity: this.quantity
-      }])
-    }
-  }
-}
-</script>
-
 <style scoped>
 .product-detail-overlay {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
+  width: 90%;
+  max-width: 800px;
+  pointer-events: none; /* 오버레이 자체는 pointer-events 없음 */
+  z-index: 1000;
   display: flex;
   justify-content: flex-end;
-  align-items: stretch;
-  z-index: 1000;
-  pointer-events: none;
 }
 
 .product-detail-container {
   background-color: white;
-  width: 90%;
-  max-width: 800px;
+  width: 100%;
   height: 100vh;
   overflow-y: auto;
   padding: 2rem;
   position: relative;
-  pointer-events: auto;
+  pointer-events: auto; /* 컨테이너는 pointer-events 활성화 */
   animation: slideIn 0.3s ease-out forwards;
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
 }
 
 .product-detail-container.slide-out {
@@ -201,6 +197,12 @@ export default {
   font-size: 2rem;
   cursor: pointer;
   color: #666;
+  transition: color 0.2s;
+  z-index: 1001;
+}
+
+.close-button:hover {
+  color: #000;
 }
 
 .product-detail-content {
@@ -226,25 +228,6 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.thumbnail-images {
-  display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-}
-
-.thumbnail {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 4px;
-  cursor: pointer;
-  border: 2px solid transparent;
-}
-
-.thumbnail:hover {
-  border-color: #007bff;
 }
 
 .product-info {
