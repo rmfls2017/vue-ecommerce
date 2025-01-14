@@ -1,35 +1,3 @@
-<script>
-export default {
-  name: 'OrderComplete',
-  data() {
-    return {
-      orderInfo: {
-        orderNumber: 'OD0000000001',
-        orderDate: '2025-01-13 15:30',
-        status: '결제완료',
-        totalAmount: 0,
-        paymentMethod: '신용카드',
-        items: [
-          {
-            id: 1,
-            title: 'NY 캡모자',
-            image: 'https://picsum.photos/id/90/300/300',
-            seller: 'fashion_seller',
-            sellerImage: 'https://picsum.photos/id/77/300/300',
-            quantity: 1
-          }
-        ],
-        shippingInfo: {
-          name: '김타우니',
-          phone: '010-1234-1234',
-          address: '서울특별시 강남구 테헤란로 123 123-12'
-        }
-      }
-    }
-  }
-}
-</script>
-
 <template>
   <div class="order-complete-page">
     <!-- 페이지 헤더 -->
@@ -106,6 +74,65 @@ export default {
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'OrderComplete',
+  data() {
+    return {
+      orderInfo: null,
+      gtmEventSent: false
+    }
+  },
+  created() {
+    // 라우터를 통해 전달된 주문 데이터가 없으면 홈으로 리다이렉트
+    const orderData = this.$route.query.orderData || this.$route.params.orderData;
+    if (!orderData) {
+      this.orderInfo = {
+        orderNumber: 'OD0000000_001',
+        orderDate: '2025-01-13 15:30',
+        status: '결제완료',
+        totalAmount: 800000,
+        paymentMethod: '신용카드',
+        items: [
+          {
+            id: 1,
+            title: 'NY 캡모자',
+            image: 'https://picsum.photos/id/90/300/300',
+            seller: 'fashion_seller',
+            sellerImage: 'https://picsum.photos/id/77/300/300',
+            quantity: 1
+          }
+        ],
+        shippingInfo: {
+          name: '김타우니',
+          phone: '010-1234-1234',
+          address: '서울특별시 강남구 테헤란로 123 123-12'
+        }
+      };
+      // 주문 데이터가 없으면 홈으로 리다이렉트
+      this.$router.replace('/');
+      return;
+    }
+
+    this.orderInfo = typeof orderData === 'string' ? JSON.parse(orderData) : orderData;
+  },
+  mounted() {
+    // gtmEventSent 플래그를 확인하여 한 번만 실행
+    if (!this.gtmEventSent && this.orderInfo) {
+      this.$gtm.logPurchase(this.orderInfo);
+      this.gtmEventSent = true;
+
+      // sessionStorage에 주문 완료 상태 저장
+      sessionStorage.setItem('orderCompleted', this.orderInfo.orderNumber);
+    }
+  },
+  beforeUnmount() {
+    // 컴포넌트가 제거될 때 sessionStorage 정리
+    sessionStorage.removeItem('orderCompleted');
+  }
+}
+</script>
 
 <style scoped>
 .order-complete-page {

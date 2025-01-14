@@ -312,6 +312,9 @@ export default {
       return new Date().toLocaleDateString('ko-KR');
     },
     changeMode(mode) {
+      if (mode === 'order') {
+        this.$gtm.logBeginCheckout(this.product)
+      }
       this.currentMode = mode;
     },
     closeModal() {
@@ -323,10 +326,31 @@ export default {
       }, 300);
     },
     submitOrder() {
-      console.log('주문 제출', {
-        product: this.product,
-        shippingCost: this.shippingCost,
-        totalPrice: this.totalPrice
+     const orderData = {
+        orderNumber: 'OD' + Date.now(),
+        orderDate: new Date().toISOString(),
+        status: '결제완료',
+        totalAmount: this.totalPrice,
+        paymentMethod: '신용카드',
+        items: [{
+          id: this.product.id,
+          title: this.product.name,
+          image: this.product.image,
+          seller: this.product.seller,
+          sellerImage: this.product.sellerImage,
+          quantity: 1,
+          price: this.product.price
+        }],
+        shippingInfo: {
+          name: '김타우니',
+          phone: '010-1234-1234',
+          address: '서울특별시 강남구 테헤란로 123 123-12'
+        }
+      };
+
+      this.$router.push({
+        path: '/order-complete',
+        query: { orderData: JSON.stringify(orderData) }
       });
     },
     submitQuotation() {

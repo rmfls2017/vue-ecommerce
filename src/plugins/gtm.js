@@ -3,7 +3,7 @@ export default {
         window.dataLayer = window.dataLayer || [];
 
         // GTM 이벤트 푸시 헬퍼 함수
-        const gtm = {
+        app.config.globalProperties.$gtm = {
             logEvent(event, data = {}) {
                 window.dataLayer.push({
                     event,
@@ -11,65 +11,55 @@ export default {
                 });
             },
 
-            // 페이지뷰 이벤트
-            logPageView(pageTitle, pagePath) {
-                this.logEvent('virtualPageView', {
-                    pageTitle,
-                    pagePath
-                });
-            },
-
             // 상품 조회 이벤트
             logProductView(product) {
-                this.logEvent('virtualProductView', {
+                this.logEvent('view_item', {
                     ecommerce: {
-                        detail: {
-                            products: [{
-                                name: product.name,
-                                id: product.id,
-                                price: product.price,
-                                category: product.category,
-                            }]
-                        }
+                        items: [{
+                            item_name: product.name,
+                            item_id: product.id,
+                            price: product.price,
+                            item_category: product.category,
+                        }]
                     }
                 });
             },
 
-            // 장바구니 담기 이벤트
-            logAddToCart(product, quantity = 1) {
-                this.logEvent('addToCart', {
+            // 체크아웃
+            logBeginCheckout(product) {
+                this.logEvent('begin_checkout', {
                     ecommerce: {
-                        add: {
-                            products: [{
-                                name: product.name,
-                                id: product.id,
-                                price: product.price,
-                                category: product.category,
-                                quantity: quantity
-                            }]
-                        }
+                        items: [{
+                            item_id: product.id,
+                            item_name: product.name,
+                            price: product.price,
+                            quantity: product.quantity,
+                            item_category: product.category || '',
+                            item_category2: product.category2 || '',
+                            item_category3: product.category3 || '',
+                            item_category4: product.category4 || '',
+                            item_category5: product.category5 || '',
+                        }]
                     }
                 });
             },
 
-            // 체크아웃 시작 이벤트
-            logBeginCheckout(cart) {
-                this.logEvent('beginCheckout', {
+            // 구매완료
+            logPurchase(orderInfo) {
+                this.logEvent('purchase', {
                     ecommerce: {
-                        checkout: {
-                            products: cart.map(item => ({
-                                name: item.product.name,
-                                id: item.product.id,
-                                price: item.product.price,
-                                category: item.product.category,
-                                quantity: item.quantity
-                            }))
-                        }
+                        transaction_id: orderInfo.orderNumber,
+                        value: orderInfo.totalAmount,
+                        currency: 'KRW',
+                        items: orderInfo.items.map(item => ({
+                            item_id: item.id,
+                            item_name: item.name,
+                            price: item.price * item.quantity,
+                            quantity: item.quantity
+                        }))
                     }
-                });
+                })
             }
         }
-
-        app.config.globalProperties.$gtm = gtm;
     }
 }
