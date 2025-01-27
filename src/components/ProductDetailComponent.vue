@@ -18,9 +18,9 @@
             <div class="seller-info">
               <div class="seller-left">
                 <a class="seller-profile">
-                  <img :src="product.sellerImage" :alt="product.seller">
+                  <img :src="product.seller.image" :alt="product.seller.name">
                 </a>
-                <a class="seller-name">{{ product.seller }}</a>
+                <a class="seller-name">{{ product.seller.name }}</a>
               </div>
               <div class="seller-actions">
                 <a class="connect-btn">
@@ -336,8 +336,10 @@ export default {
           id: this.product.id,
           title: this.product.name,
           image: this.product.image,
-          seller: this.product.seller,
-          sellerImage: this.product.sellerImage,
+          seller: {
+            name: this.product.seller.name,
+            image: this.product.seller.image,
+          },
           quantity: 1,
           price: this.product.price
         }],

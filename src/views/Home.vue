@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import productData from "@/assets/products.json"
 import ProductCard from "@/components/ProductCard.vue";
 import ProductDetailComponent from "@/components/ProductDetailComponent.vue";
 
@@ -45,99 +46,7 @@ export default {
     return {
       selectedCategory: 'all',
       selectedProduct: null,
-      products: [
-        {
-          id: 1,
-          name: '상품 1',
-          price: 19000,
-          image: 'https://picsum.photos/id/100/300/300',
-          description: '상품설명 1',
-          category: 'electronics',
-          details: {
-            brand: '테크브랜드',
-            model: 'X2000',
-            specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
-            stock: 50
-          },
-          sellerImage: "https://picsum.photos/id/101/300/300",
-          seller: "",
-        },
-        {
-          id: 2,
-          name: '상품 2',
-          price: 29000,
-          image: 'https://picsum.photos/id/200/300/300',
-          description: '상품설명 2',
-          details: {
-            brand: '테크브랜드',
-            model: 'X2000',
-            specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
-            stock: 50
-          },
-          sellerImage: "https://picsum.photos/id/201/300/300",
-          seller: "",
-        },
-        {
-          id: 3,
-          name: '상품 3',
-          // price: 39000,
-          image: 'https://picsum.photos/id/300/300/300',
-          description: '상품설명 3',
-          details: {
-            brand: '테크브랜드',
-            model: 'X2000',
-            specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
-            stock: 50
-          },
-          sellerImage: "https://picsum.photos/id/301/300/300",
-          seller: "",
-        },
-        {
-          id: 4,
-          name: '상품 4',
-          // price: 49000,
-          image: 'https://picsum.photos/id/400/300/300',
-          description: '상품설명 4',
-          details: {
-            brand: '테크브랜드',
-            model: 'X2000',
-            specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
-            stock: 50
-          },
-          sellerImage: "https://picsum.photos/id/401/300/300",
-          seller: "",
-        },
-        {
-          id: 5,
-          name: '상품 5',
-          price: 59000,
-          image: 'https://picsum.photos/id/500/300/300',
-          description: '상품설명 5',
-          details: {
-            brand: '테크브랜드',
-            model: 'X2000',
-            specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
-            stock: 50
-          },
-          sellerImage: "https://picsum.photos/id/501/300/300",
-          seller: "",
-        },
-        {
-          id: 6,
-          name: '상품 6',
-          price: 69000,
-          image: 'https://picsum.photos/id/600/300/300',
-          description: '상품설명 6',
-          details: {
-            brand: '테크브랜드',
-            model: 'X2000',
-            specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
-            stock: 50
-          },
-          sellerImage: "https://picsum.photos/id/601/300/300",
-          seller: "",
-        }
-      ]
+      products: productData
     }
   },
   computed: {
