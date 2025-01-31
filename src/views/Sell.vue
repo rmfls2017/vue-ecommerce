@@ -1,4 +1,6 @@
 <script>
+import ProductCategoryFilter from "@/assets/data/product_category_filter.json";
+import Products from "@/assets/data/products.json"
 import ProductCard from "@/components/ProductCard.vue";
 import ProductDetailComponent from "@/components/ProductDetailComponent.vue";
 
@@ -12,121 +14,9 @@ export default {
     return {
       selectedProduct: null,
       activeFilter: 'category_wrap',
-      filters: [
-        {
-          id: 'category_wrap',
-          name: '카테고리',
-          options: [
-            {id: '1095', label: '전자/가전', value: '전자/가전'},
-            {id: '1108', label: '패션/잡화', value: '패션/잡화'},
-            {id: '1111', label: '아웃도어', value: '아웃도어'},
-            {id: '1104', label: '뷰티/화장품', value: '뷰티/화장품'},
-            {id: '1100', label: '완구/피규어', value: '완구/피규어'},
-            {id: '1000', label: '음반/굿즈', value: '음반/굿즈'},
-            {id: '1109', label: '비타민', value: '비타민'},
-            {id: '1107', label: '식품', value: '식품'},
-            {id: '1106', label: '주방', value: '주방'},
-            {id: '1105', label: '자동차용품', value: '자동차용품'},
-            {id: '1103', label: '취미/생활', value: '취미/생활'}
-          ]
-        },
-        {id: 'tag_wrap', name: '태그', options: []},
-        {id: 'curation_wrap', name: '큐레이션', options: []}
-      ],
+      filters: ProductCategoryFilter,
       selectedCategories: [],
-      products: [
-        {
-          id: 1,
-          name: '상품 1',
-          price: 19000,
-          image: 'https://picsum.photos/id/100/300/300',
-          description: '상품설명 1',
-          category: 'electronics',
-          details: {
-            brand: '테크브랜드',
-            model: 'X2000',
-            specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
-            stock: 50
-          },
-          sellerImage: "https://picsum.photos/id/101/300/300",
-          seller: "",
-        },
-        {
-          id: 2,
-          name: '상품 2',
-          price: 29000,
-          image: 'https://picsum.photos/id/200/300/300',
-          description: '상품설명 2',
-          details: {
-            brand: '테크브랜드',
-            model: 'X2000',
-            specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
-            stock: 50
-          },
-          sellerImage: "https://picsum.photos/id/201/300/300",
-          seller: "",
-        },
-        {
-          id: 3,
-          name: '상품 3',
-          price: 39000,
-          image: 'https://picsum.photos/id/300/300/300',
-          description: '상품설명 3',
-          details: {
-            brand: '테크브랜드',
-            model: 'X2000',
-            specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
-            stock: 50
-          },
-          sellerImage: "https://picsum.photos/id/301/300/300",
-          seller: "",
-        },
-        {
-          id: 4,
-          name: '상품 4',
-          price: 49000,
-          image: 'https://picsum.photos/id/400/300/300',
-          description: '상품설명 4',
-          details: {
-            brand: '테크브랜드',
-            model: 'X2000',
-            specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
-            stock: 50
-          },
-          sellerImage: "https://picsum.photos/id/401/300/300",
-          seller: "",
-        },
-        {
-          id: 5,
-          name: '상품 5',
-          price: 59000,
-          image: 'https://picsum.photos/id/500/300/300',
-          description: '상품설명 5',
-          details: {
-            brand: '테크브랜드',
-            model: 'X2000',
-            specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
-            stock: 50
-          },
-          sellerImage: "https://picsum.photos/id/501/300/300",
-          seller: "",
-        },
-        {
-          id: 6,
-          name: '상품 6',
-          price: 69000,
-          image: 'https://picsum.photos/id/600/300/300',
-          description: '상품설명 6',
-          details: {
-            brand: '테크브랜드',
-            model: 'X2000',
-            specs: ['6.7인치 디스플레이', '256GB 저장공간', '5G 지원'],
-            stock: 50
-          },
-          sellerImage: "https://picsum.photos/id/601/300/300",
-          seller: "",
-        }
-      ]
+      products: Products
     }
   },
   methods: {
@@ -171,11 +61,8 @@ export default {
 
     <div class="filter-wrapper">
       <ul class="filter-buttons">
-        <li v-for="filter in filters"
-            :key="filter.id"
-            :class="{ active: activeFilter === filter.id }">
-          <button class="btn-open"
-                  @click="setActiveFilter(filter.id)">
+        <li v-for="filter in filters" :key="filter.id" :class="{ active: activeFilter === filter.id }">
+          <button class="btn-open" @click="setActiveFilter(filter.id)">
             {{ filter.name }}
           </button>
         </li>

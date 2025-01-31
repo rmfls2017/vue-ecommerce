@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import productData from "@/assets/products.json"
+import productData from "@/assets/data/products.json"
 import ProductCard from "@/components/ProductCard.vue";
 import ProductDetailComponent from "@/components/ProductDetailComponent.vue";
 
