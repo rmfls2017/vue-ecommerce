@@ -1,11 +1,9 @@
 <template>
-  <div class="app">
-    <HeaderComponent />
-    <main class="main-content">
-      <router-view></router-view>
-    </main>
-    <FooterComponent />
-  </div>
+  <HeaderComponent />
+  <main class="main-content">
+    <router-view></router-view>
+  </main>
+  <FooterComponent />
 </template>
 
 <script>
@@ -26,11 +24,6 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-.app {
-  min-height: 100vh;
-  background-color: #ffffff;
 }
 
 .main-content {
