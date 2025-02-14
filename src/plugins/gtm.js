@@ -84,7 +84,7 @@ export default {
                 this.logEvent('purchase', {
                     ecommerce: {
                         transaction_id: orderInfo.orderNumber,
-                        value: totalOrderValue, //
+                        value: totalOrderValue,
                         currency: 'KRW',
                         shipping: orderInfo.shippingPrice, // 주문 배송비
                         items: items
