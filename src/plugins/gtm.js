@@ -13,8 +13,8 @@ export default {
 
             // AnonymousComponent 를 트랙킹하기 위한 이벤트 추적 함수
             logPageView(page) {
-                // 배송대행의 단계별 page 이름을 설정 요청, ex) [배송대행] - 1단계, [배송대행] - 2단계, [배송대행] - 3단계
-                // component 가 mount 되는 시점에 해당 이벤트를 호출할 수 있을지 - 훗타운 개발팀 확인 요청
+                // fixme: 배송대행의 단계별 page 이름을 설정, ex) [배송대행] - 1단계, [배송대행] - 2단계, [배송대행] - 3단계
+                //   - component 가 mount 되는 시점에 해당 이벤트를 호출할 수 있을지?
                 this.logEvent('page_view', {
                     send_page_view: false,
                     page_title: page.title || document.title,
@@ -57,7 +57,7 @@ export default {
 
             // 구매완료
             logPurchase(orderInfo) {
-                // 결제가 발생하는 곳에서 구분짓기 위한 변수 선언
+                // fixme: 결제가 발생되는 시점에서 orderInfo 안에 속성값으로 ref 를 추가가능할지
                 const prefixProductName = (orderInfo) => {
                     switch (orderInfo.ref) {
                         case 'buy':
