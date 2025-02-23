@@ -11,6 +11,17 @@ export default {
                 });
             },
 
+            // AnonymousComponent 를 트랙킹하기 위한 이벤트 추적 함수
+            logPageView(page) {
+                // 배송대행의 단계별 page 이름을 설정 요청, ex) [배송대행] - 1단계, [배송대행] - 2단계, [배송대행] - 3단계
+                // component 가 mount 되는 시점에 해당 이벤트를 호출할 수 있을지 - 훗타운 개발팀 확인 요청
+                this.logEvent('page_view', {
+                    send_page_view: false,
+                    page_title: page.title || document.title,
+                    page_location: page.location || location.href,
+                })
+            },
+
             // 상품 조회 이벤트
             logProductView(product) {
                 this.logEvent('view_item', {
