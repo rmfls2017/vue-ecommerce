@@ -130,6 +130,83 @@ export default {
                 this.logEvent(`purchase`, ...data)
             },
 
+            /**
+             * logWanted 사용자가 사줘요를 요청할 때 작성되는 내용을 추적하기 위한 함수
+             *
+             * @param page 현재 사용자가 보고있는 page 의 정보, title 과 location 정보 필요
+             * @param step 각 단계 별 사용자가 진입한 단계
+             * @param wantedInfo 작성 완료 단계에서 작성한 정보를 알기 위한 데이터 (카테고리, 요청내용, 국가..)
+             *
+             * Wanted-1: 사줘요작성 버튼클릭
+             * Wanted-2: 사줘요 요청 진입
+             * Wanted-3: 요청내용 작성 진입
+             * Wanted-4: 배송도착 국가 선택 진입
+             * Wanted-5: 추가참고사진 업로드 진입
+             * Wanted-6: 요청기간 설정 진입
+             * Wanted Complete: 완료
+             */
+            logWanted(page, step, wantedInfo) {
+                this.logPageView(page)
+
+                if (step !== 'last') {
+                    this.logEvent(`Wanted-${step}`)
+                    return
+                }
+
+                const data = {
+                    title: wantedInfo.title, // 상품명
+                    description: wantedInfo.description, // 상품 설명
+                    destination: wantedInfo.destination, // 배달 국가
+                    category: wantedInfo.category, // 카테고리
+                    duration: wantedInfo.duration, // 배송기간
+                    referrer_url: wantedInfo.referrerURL, // 상품 구매 URL
+                }
+
+                this.logEvent(`Wanted Complete`, ...data)
+            },
+
+            /**
+             * logUpload 사용자가 팔아요를 요청할 떄 작성되는 내용을 추적하기 위한 함수
+             *
+             * @param page 현재 사용자가 보고있는 page 의 정보, title 과 location 정보 필요
+             * @param step 각 단계 별 사용자가 진입한 단계
+             * @param uploadInfo 완료 단계에서 작성한 정보를 알기 위한 데이터
+             *
+             * Upload-1: 팔아요 등록버튼 클릭
+             * Upload-2: 국가선택 진입
+             * Upload-3: 브랜드/상품명 입력 진입
+             * Upload-4: 상품제목 입력 진입
+             * Upload-5: 상품사진 입력 진입
+             * Upload-6: 상품 제안가 입력 진입
+             * Upload Complete: 완료
+             */
+            logUpload(page, step, uploadInfo) {
+                this.logPageView(page)
+
+                if (step !== 'last') {
+                    this.logEvent(`Upload-${step}`)
+                    return
+                }
+
+                const data = {
+                    departure: uploadInfo.departure,
+                    category: uploadInfo.category,
+                    product: {
+                        name: uploadInfo.product.name,
+                        brand: uploadInfo.product.brand,
+                        category: uploadInfo.product.category,
+                        type: uploadInfo.product.type,
+                        display_name: uploadInfo.product.displayName, // 노출 상품명
+                        description: uploadInfo.product.description,
+                        tags: uploadInfo.product.tags, // 상품에서 검색될 태그명 (혹은, 유사한 데이터)
+                        stock: uploadInfo.product.stock,
+                        unit_price: uploadInfo.product.unitPrice,
+                    }
+                }
+
+                this.logEvent(`Upload Complete`, ...data)
+            },
+
             // AnonymousComponent 를 트랙킹하기 위한 이벤트 추적 함수
             logPageView(page) {
                 // fixme: 배송대행의 단계별 page 이름을 설정, ex) [배송대행] - 1단계, [배송대행] - 2단계, [배송대행] - 3단계
