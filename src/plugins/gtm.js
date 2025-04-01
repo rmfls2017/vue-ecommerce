@@ -24,7 +24,13 @@ export default {
              * Signup Complete (last): 회원가입이 완료된 경우
              */
             logSignup(page, step, method) {
-                this.logPageView(page)
+                const p = {
+                    title: page.title || (step === 'last' ? `Signup complete` : `signupStep${step}`),
+                    path: page.path || (step === 'last' ? `/signupComplete` : `/signupStep${step}`),
+                    location: page.location || (step === 'last' ? `/signupComplete` : `/signupStep${step}`)
+                }
+
+                this.logPageView(p)
 
                 // 마지막 단계가 아닌 경우에는 일반 커스텀 이벤트 발생
                 if (step !== 'last') {
@@ -42,6 +48,57 @@ export default {
             },
 
             /**
+             * logShip 배송대행 상품을 보는 사용자를 추적하기 위한 함수
+             * 
+             * @param {Object} page 현재 사용자가 보고있는 page 의 정보, title 과 location 정보 필요
+             * @param {String} step 각 단계 별 사용자가 진입한 단계
+             * @param {Object} deliveryInfo 배송 정보
+             * 
+             * Ship-1: 배송대행 신청서 작성페이지 진입 (국가선택)
+             * Ship-2: 배송서비스선택(일반)
+             * Ship-3: 배송서비스선택(빠른배송)
+             * Ship-4: 배송상품 입력
+             * Ship-5: 관부가세 페이지 진입
+             * Ship-6: 추가서비스 페이지 진입
+             * Ship-7: 국내 배송지 정보 페이지 진입
+             * Ship Complete (last): 배송대행 완료 페이지 진입
+             */
+            logShip(page, step, deliveryInfo) {
+                const p = {
+                    title: page.title || (step === 'last' ? `Ship complete` : `shipStep${step}`),
+                    path: page.path || (step === 'last' ? `/shipComplete` : `/shipStep${step}`),
+                    location: page.location || (step === 'last' ? `/shipComplete` : `/shipStep${step}`)
+                }
+
+                this.logPageView(p)
+
+                if (step !== 'last') {
+                    this.logEvent(`Ship-${step}`)
+                    return
+                }
+
+                const data = {
+                    url: deliveryInfo.url, // 쇼핑몰 URL
+                    trackingNo: deliveryInfo.trackingNo, // 송장번호
+                    destination: deliveryInfo.destination, // 배송 국가
+                    serviceType: deliveryInfo.serviceType, // 배송 서비스 타입  (일반, 빠른배송)
+                    products: [
+                        {
+                            category: deliveryInfo.product.category, // 상품 카테고리 (ex. 전자제품, 의류/패션잡화..)
+                            type: deliveryInfo.product.type, // 상품 품목 (ex. 프린터/복사기, 데스크탑, 선글라스)
+                            tags: deliveryInfo.product.tags, // 상품에서 검색될 태그명 (혹은, 유사한 데이터)
+                            name: deliveryInfo.product.name, // 상품명
+                            unit_price: deliveryInfo.product.unit_price, // 단가
+                            quantity: deliveryInfo.product.quantity, // 수량
+                        }
+                    ],
+                    tax: deliveryInfo.tax, // 부가세
+                }
+
+                this.logEvent(`Ship Complete`, data)
+            },
+
+            /**
              * logSelling 팔아요 상품을 보는 사용자를 추적하기 위한 함수
              *
              * @param page 현재 사용자가 보고있는 page 의 정보, title 과 location 정보 필요
@@ -55,7 +112,13 @@ export default {
              * Sell Complete (last): 주문완료페이지 진입 시
              */
             logSelling(page, step, orderInfo) {
-                this.logPageView(page)
+                const p = {
+                    title: page.title || (step === 'last' ? `Sell complete` : `sellStep${step}`),
+                    path: page.path || (step === 'last' ? `/sellComplete` : `/sellStep${step}`),
+                    location: page.location || (step === 'last' ? `/sellComplete` : `/sellStep${step}`)
+                }
+
+                this.logPageView(p)
 
                 // 마지막 단계가 아닌 경우에는 일반 커스텀 이벤트 발생
                 if (step !== 'last') {
@@ -79,10 +142,10 @@ export default {
                 }
 
                 // 커스텀 주문완료 이벤트 내용
-                this.logEvent(`Sell Complete`, ...data)
+                this.logEvent(`Sell Complete`, data)
 
                 // 실제 GA 에서 수집되는 이벤트 내용
-                this.logEvent(`purchase`, ...data)
+                this.logEvent(`purchase`, data)
             },
 
             /**
@@ -100,7 +163,13 @@ export default {
              * Buy Complete (last): 주문완료페이지 진입 시
              */
             logBuying(page, step, orderInfo) {
-                this.logPageView(page)
+                const p = {
+                    title: page.title || (step === 'last' ? `Buy complete` : `buyStep${step}`),
+                    path: page.path || (step === 'last' ? `/buyComplete` : `/buyStep${step}`),
+                    location: page.location || (step === 'last' ? `/buyComplete` : `/buyStep${step}`)
+                }
+
+                this.logPageView(p)
 
                 // 마지막 단계가 아닌 경우에는 일반 커스텀 이벤트 발생
                 if (step !== 'last') {
@@ -124,10 +193,10 @@ export default {
                 }
 
                 // 커스텀 주문완료 이벤트 내용
-                this.logEvent(`Buy Complete`, ...data)
+                this.logEvent(`Buy Complete`, data)
 
                 // 실제 GA 에서 수집되는 이벤트 내용
-                this.logEvent(`purchase`, ...data)
+                this.logEvent(`purchase`, data)
             },
 
             /**
@@ -146,7 +215,13 @@ export default {
              * Wanted Complete: 완료
              */
             logWanted(page, step, wantedInfo) {
-                this.logPageView(page)
+                const p = {
+                    title: page.title || (step === 'last' ? `Wanted complete` : `wantedStep${step}`),
+                    path: page.path || (step === 'last' ? `/wantedComplete` : `/wantedStep${step}`),
+                    location: page.location || (step === 'last' ? `/wantedComplete` : `/wantedStep${step}`)
+                }
+
+                this.logPageView(p)
 
                 if (step !== 'last') {
                     this.logEvent(`Wanted-${step}`)
@@ -162,7 +237,7 @@ export default {
                     referrer_url: wantedInfo.referrerURL, // 상품 구매 URL
                 }
 
-                this.logEvent(`Wanted Complete`, ...data)
+                this.logEvent(`Wanted Complete`, data)
             },
 
             /**
@@ -181,7 +256,13 @@ export default {
              * Upload Complete: 완료
              */
             logUpload(page, step, uploadInfo) {
-                this.logPageView(page)
+                const p = {
+                    title: page.title || (step === 'last' ? `Upload complete` : `uploadStep${step}`),
+                    path: page.path || (step === 'last' ? `/uploadComplete` : `/uploadStep${step}`),
+                    location: page.location || (step === 'last' ? `/uploadComplete` : `/uploadStep${step}`)
+                }
+
+                this.logPageView(p)
 
                 if (step !== 'last') {
                     this.logEvent(`Upload-${step}`)
@@ -195,7 +276,6 @@ export default {
                         name: uploadInfo.product.name,
                         brand: uploadInfo.product.brand,
                         category: uploadInfo.product.category,
-                        type: uploadInfo.product.type,
                         display_name: uploadInfo.product.displayName, // 노출 상품명
                         description: uploadInfo.product.description,
                         tags: uploadInfo.product.tags, // 상품에서 검색될 태그명 (혹은, 유사한 데이터)
@@ -204,7 +284,7 @@ export default {
                     }
                 }
 
-                this.logEvent(`Upload Complete`, ...data)
+                this.logEvent(`Upload Complete`, data)
             },
 
             // AnonymousComponent 를 트랙킹하기 위한 이벤트 추적 함수
