@@ -20,6 +20,7 @@ export default {
              *
              * Signup-1: 회원가입 버튼을 눌러 모달이 바껴 회원가입 모달이 노출되는 경우
              * Signup-2: 일반회원가입 클릭을 누르는 경우
+             * Signup-2_2: 기본정보입력창 진입
              * Signup-3: 간편가입 클릭을 누르는 경우
              * Signup Complete (last): 회원가입이 완료된 경우
              */
@@ -253,6 +254,7 @@ export default {
              * Upload-4: 상품제목 입력 진입
              * Upload-5: 상품사진 입력 진입
              * Upload-6: 상품 제안가 입력 진입
+             * Upload-7: 무게입력창 진입
              * Upload Complete: 완료
              */
             logUpload(page, step, uploadInfo) {
@@ -287,7 +289,6 @@ export default {
                 this.logEvent(`Upload Complete`, data)
             },
 
-            // AnonymousComponent 를 트랙킹하기 위한 이벤트 추적 함수
             logPageView(page) {
                 // fixme: 배송대행의 단계별 page 이름을 설정, ex) [배송대행] - 1단계, [배송대행] - 2단계, [배송대행] - 3단계
                 //   - component 가 mount 되는 시점에 해당 이벤트를 호출할 수 있을지?
